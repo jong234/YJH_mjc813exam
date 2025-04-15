@@ -22,10 +22,11 @@ class Wizard {
 }
 
 class AmusementPark{
-    Bodylength = prompt("당신의 키를 입력하세요");
-    length1 = parseInt(this.Bodylength);
-    constructor(Bl) {
-        this.Bodylength = Bl;
+    Bodylength = "";
+    length1 = 0;
+    constructor() {
+        this.Bodylength =  prompt("당신의 키를 입력하세요");
+        this.length1 = parseInt(this.Bodylength);
     }
     print(){
         if(this.length1 > 150){
