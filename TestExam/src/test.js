@@ -80,11 +80,8 @@ class Ex10 {
         console.log("출력: " + result);
     }
 }
-let Exresult1 = new Ex10();
-Exresult1.test10();
-let Exresult2 = new Ex10();
-Exresult2.test12();
-let Exresult3 = new Ex10();
-Exresult3.test13();
-let Exresult4 = new Ex10();
-Exresult4.test16();
+let Exresult = new Ex10();
+Exresult.test10();
+Exresult.test12();
+Exresult.test13();
+Exresult.test16();
