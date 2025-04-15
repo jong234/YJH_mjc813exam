@@ -21,6 +21,39 @@ class Wizard {
     }
 }
 
+class AmusementPark{
+    Bodylength = prompt("당신의 키를 입력하세요");
+    length1 = parseInt(this.Bodylength);
+    constructor(Bl) {
+        this.Bodylength = Bl;
+    }
+    print(){
+        if(this.length1 > 150){
+            console.log("Yes");
+        }else {
+            console.log("No");
+        }
+    }
+}
+
+class AVGScore{
+    ScoreArr = [];
+    Korean = 0;
+    English = 0;
+    Math1 = 0;
+    AVG = "";
+    constructor() {
+        let Score = prompt("당신의 점수를 국어 영어 수학 순으로 공백을 넣어 구분하여 입력하세요");
+        this.ScoreArr = Score.split(" ");
+        this.Korean = parseInt(this.ScoreArr[0]);
+        this.English = parseInt(this.ScoreArr[1]);
+        this.Math1 = parseInt(this.ScoreArr[2]);
+    }
+    Print1(){
+        this.AVG = Math.trunc((this.Korean + this.English + this.Math1)/3);
+        console.log("입력: " + this.ScoreArr + "\n" + "출력: " + this.AVG);
+    }
+}
 class Ex10 {
     test10() {
         let str = 2;
@@ -79,9 +112,22 @@ class Ex10 {
         console.log("입력: " + text);
         console.log("출력: " + result);
     }
+
+    test17(){
+        const A = new AmusementPark();
+        A.print();
+    }
+    test18(){
+        const AVGResult = new AVGScore();
+        AVGResult.Print1();
+    }
 }
+
 let Exresult = new Ex10();
 Exresult.test10();
 Exresult.test12();
 Exresult.test13();
 Exresult.test16();
+Exresult.test17();
+Exresult.test18();
+
