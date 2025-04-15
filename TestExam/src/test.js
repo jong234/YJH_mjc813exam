@@ -72,12 +72,12 @@ class Ex10 {
     }
     test16(){
         let text = "거꾸로";
-        let textArrangement = [];
+        let textArrangement = text.split("");
         let result = "";
 
-        textArrangement = String.prototype.split(text);
-        result = textArrangement.join();
-        console.log(result);
+        result = textArrangement.reverse().join("");
+        console.log("입력: " + text);
+        console.log("출력: " + result);
     }
 }
 let Exresult1 = new Ex10();
