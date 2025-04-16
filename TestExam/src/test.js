@@ -55,6 +55,56 @@ class AVGScore{
         console.log("입력: " + this.ScoreArr + "\n" + "출력: " + this.AVG);
     }
 }
+
+class Square {
+    AnwserSquareArr = [];
+    a = 0;
+    b = 0;
+    result = 1;
+    constructor() {
+        let AnwserSquareNum = prompt("공백으로 구분하여 두개의 숫자 a, b 를 입력하세요 (a의b승)");
+        this.AnwserSquareArr = AnwserSquareNum.split(" ");
+        this.a = parseInt(this.AnwserSquareArr[0]);
+        this.b = parseInt(this.AnwserSquareArr[1]);
+    }
+    Print2(){
+       for(let i= 0; i < this.b; i++ ){
+           this.result *= this.a;
+       }
+       console.log(this.a +"의"+ this.b +"승은: " + this.result);
+    }
+}
+class STRKoreanToEnglish{
+    StrKorean = ["수성", "금성", "지구", "화성", "목성", "토성", "천왕성", "해왕성"];
+    StrEnglish = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
+    Comparison = "";
+    STRPrompt = "";
+    constructor() {
+        this.STRPrompt = prompt("한글로 태양계의 행성을 입력하세요 (수성, 금성, 지구, 화성, 목성, 토성, 천왕성, 해왕성)");
+    }
+    Print3(){
+        for (let i = 0; i < this.StrKorean.length; i++ ){
+            this.Comparison = this.StrKorean[i].toString();
+           if(this.STRPrompt === this.Comparison){
+               console.log(this.StrEnglish[i]);
+               break;
+           }
+        }
+
+    }
+}
+class CircleArea{
+    Radius = 0;
+    AreaResult = 0;
+    constructor() {
+        let RadiusPrompt = prompt("원의 반지름을 입력하세요");
+        this.Radius = RadiusPrompt.toString();
+    }
+    Area(){
+        this.AreaResult = this.Radius * this.Radius * 3.14;
+        console.log(this.AreaResult);
+    }
+}
 class Ex10 {
     test10() {
         let str = 2;
@@ -122,6 +172,18 @@ class Ex10 {
         const AVGResult = new AVGScore();
         AVGResult.Print1();
     }
+    test19(){
+        const SquareResult = new Square();
+        SquareResult.Print2();
+    }
+    test25(){
+        const  CResult = new CircleArea();
+        CResult.Area();
+    }
+    test26(){
+        const STRResult = new STRKoreanToEnglish();
+        STRResult.Print3();
+    }
 }
 
 let Exresult = new Ex10();
@@ -131,5 +193,8 @@ Exresult.test13();
 Exresult.test16();
 Exresult.test17();
 Exresult.test18();
+Exresult.test19();
+Exresult.test26();
+Exresult.test25();
 ///
 
