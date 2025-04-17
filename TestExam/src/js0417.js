@@ -34,3 +34,23 @@ let exam = new Exam27();
 if ( exam.inputFunc() ) {   // inputFunc() 를 실행하고 리턴값이 true 이면
     exam.outputFunc();  // outputFunc() 를 실행한다.
 }
+
+class Ex28{
+    strInput = "";
+    constructor(str) {
+        this.strInput = str;
+    }
+    output(){
+        let ArrStr = [];
+        ArrStr = this.strInput.split("");
+
+        for (let i = 0; i < ArrStr.length-1; i++){
+            console.log(ArrStr[i] + " " + ArrStr[i+1] + "\n");
+        }
+
+        console.log();
+    }
+}
+
+let exam2 = new Ex28(prompt("문자를 입력하세요."));
+exam2.output();
