@@ -20,28 +20,16 @@ public class MyMathMathic {
         return a == b ? true : false;
     }
     public boolean same(String a, String b){
-        if(a.equals(b)){
-            return true;
-        }else {
-            return false;
-        }
+        return a.equals(b) ? true : false ;
     }
     public boolean notSame(int a, int b){
         return a != b ? true : false;
     }
     public boolean big(int a,int b){
-        if(a > b){
-            return true;
-        }else {
-            return false;
-        }
+        return  a > b ? true : false;
     }
     public boolean small(int a,int b){
-        if(a < b){
-            return true;
-        }else {
-            return false;
-        }
+        return a < b ? true : false;
     }
     public int shiftLeft(int a,byte b){
         return a << b;
@@ -60,11 +48,7 @@ public class MyMathMathic {
         return c;
     }
     public int absolute(int a){
-        if(a < 0) {
-            return a * -1;
-        }else{
-            return a;
-        }
+        return a < 0 ? -a : a;
     }
     public String toHex(int a){
         return Integer.toHexString(a);
