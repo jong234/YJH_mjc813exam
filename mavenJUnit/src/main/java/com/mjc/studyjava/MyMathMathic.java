@@ -63,4 +63,47 @@ public class MyMathMathic {
     public int toDec(String a){
         return Integer.parseInt(a, 10);
     }
+    public int avg(int [] arry){
+        int sum = 0;
+        for(int i = 0; i < arry.length; i++){
+            sum += arry[i];
+        }
+        return sum / arry.length;
+    }
+    public int sum(int [] arry){
+        int sum1 = 0;
+        for(int i = 0; i < arry.length; i++){
+            sum1 += arry[i];
+        }
+        return sum1;
+    }
+    public int sumOfNumber(int [] arry, int number){
+        int sum = 0;
+        for(int i = 0; i < arry.length; i++){
+            if(arry[i] % number == 0){
+               sum += arry[i];
+            }
+        }
+        return sum;
+    }
+    public int sumOfLoop(int a, int b){
+        int sum = 0;
+       for(int i = 0; i <= b; i++){
+           if(i < a){
+               continue;
+           }
+           sum += i;
+       }
+       //a부터 b까지 더하기 a = 2 b = 5면  2+3+4+5 까지
+        return sum;
+    }
+    public int sumOfFav(int a, int b) {
+        int sum = 0;
+        if (a == b) {
+            return sum + b;
+        } else if (sum == 0) {
+            return (sum + a) + sumOfFav(a + 1, b);
+        }
+        return sum;
+    }
 }

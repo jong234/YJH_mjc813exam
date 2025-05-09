@@ -47,6 +47,7 @@ public class TestMyMathMathic {
         assertThat(mmm.toOct(7568)).isEqualTo("16620");
         assertThat(mmm.toOct(961)).isEqualTo("1701");
         assertThat(mmm.toDec("234123")).isEqualTo(234123);
-        assertThat(mmm.toDec("77")).isEqualTo(77);
+        assertThat(mmm.sumOfFav(4, 10)).isEqualTo(49);
+
     }
 }
