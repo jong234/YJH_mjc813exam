@@ -7,7 +7,7 @@ public class Computer {
     String Storage = null;
     String Graphic = null;
 
-    void Computer1(String ComName) {
+    void Computer(String ComName) {
         name = ComName;
         System.out.println("이름: " + this.nullCheck(name));
         System.out.println("CPU: " + this.nullCheck(CPU));
@@ -16,7 +16,7 @@ public class Computer {
         System.out.println("Graphic: " + this.nullCheck(Graphic));
     }
 
-    void Computer2(String ComName, String CPU1) {
+    void Computer(String ComName, String CPU1) {
         name = ComName;
         CPU = CPU1;
         System.out.println("이름: " + this.nullCheck(name));
@@ -25,7 +25,7 @@ public class Computer {
         System.out.println("Storage: " + this.nullCheck(Storage));
         System.out.println("Graphic: " + this.nullCheck(Graphic));
     }
-    void Computer3(String ComName, String CPU1, String Ram1) {
+    void Computer(String ComName, String CPU1, String Ram1) {
         name = ComName;
         CPU = CPU1;
         Ram = Ram1;
@@ -36,7 +36,7 @@ public class Computer {
         System.out.println("Graphic: " + this.nullCheck(Graphic));
     }
 
-    void Computer4(String ComName, String CPU1, String Ram1, String Storage1) {
+    void Computer(String ComName, String CPU1, String Ram1, String Storage1) {
         name = ComName;
         CPU = CPU1;
         Ram = Ram1;
@@ -48,7 +48,7 @@ public class Computer {
         System.out.println("Graphic: " + this.nullCheck(Graphic));
     }
 
-    void Computer5(String ComName, String CPU1, String Ram1, String Storage1, String Graphic1) {
+    void Computer(String ComName, String CPU1, String Ram1, String Storage1, String Graphic1) {
         name = ComName;
         CPU = CPU1;
         Ram = Ram1;
@@ -80,27 +80,27 @@ public class Computer {
     public static void main(String[] args) {
         Computer com1 = new Computer();
         com1.run("mjcComputer");
-        com1.Computer1("mjcComputer");
+        com1.Computer("mjcComputer");
         com1.end("mjcComputer");
 
         Computer com2 = new Computer();
         com2.run("AComputer");
-        com2.Computer2("AComputer", "Gen9_i5");
+        com2.Computer("AComputer", "Gen9_i5");
         com2.end("AComputer");
 
         Computer com3 = new Computer();
         com3.run("BComputer");
-        com3.Computer3("BComputer", "Gen9_i7", "16GB");
+        com3.Computer("BComputer", "Gen9_i7", "16GB");
         com3.end("BComputer");
 
         Computer com4 = new Computer();
         com4.run("CComputer");
-        com4.Computer4("CComputer", "Gen9_i9", "32GB", "HDD 500GB");
+        com4.Computer("CComputer", "Gen9_i9", "32GB", "HDD 500GB");
         com4.end("CComputer");
 
         Computer com5 = new Computer();
         com5.run("DComputer");
-        com5.Computer5("DComputer", "Gen9_i9", "32GB", "SSD 2000GB", "GTX_1660");
+        com5.Computer("DComputer", "Gen9_i9", "32GB", "SSD 2000GB", "GTX_1660");
         com5.end("DComputer");
 
         Mouse mouse = new Mouse();
