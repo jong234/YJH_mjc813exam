@@ -37,6 +37,45 @@ public class Main {
         }else{
             System.out.println("다른 ShopService 객체입니다.");
         }
-        
+
+
+        Animal animal = new Animal();
+        animal.reproduce("나비");
+        animal.eat("먹이");
+        animal.move();
+        animal.sleep();
+
+
+        Bird bird = new Bird();
+        bird.reproduce("참새");
+        bird.flap();
+        bird.fly();
+
+        Parrot parrot = new Parrot();
+        parrot.reproduce("페럿");
+        parrot.fly();
+        parrot.eat("벼");
+
+        Eagle eagle = new Eagle();
+        eagle.reproduce("독수리");
+        eagle.fly();
+        eagle.eat("쥐");
+
+        Mammalia mammalia = new Mammalia();
+        mammalia.reproduce("포유류");
+        mammalia.feedingMilk();
+        mammalia.eat("사과");
+
+        Herbivore herbivore = new Herbivore("염소");
+        herbivore.reproduce("초식 동물");
+
+        Carnivore carnivore = new Carnivore();
+        carnivore.reproduce("사자");
+        carnivore.eat("염소");
+        carnivore.eat(new Herbivore("염소"));
+
+
+
     }
+
 }
