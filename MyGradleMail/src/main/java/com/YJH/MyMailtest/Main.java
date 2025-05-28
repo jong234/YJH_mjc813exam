@@ -19,7 +19,7 @@ public class Main {
     }
 
     private static void generateAndSendEmail() throws Exception {
-        final String user = "oip@naver.com";
+        final String user = "@naver.com";
         final String password = "";
 
         prop = new Properties();
@@ -37,7 +37,7 @@ public class Main {
             MimeMessage message = new MimeMessage(session1);
             message.setFrom(new InternetAddress(user));
 
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress("oip9663@naver.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress("@naver.com"));
             message.setSubject("Hello World");
             message.setText("정상적으로 Gradle 메일이 전송 되었어요.");
 
