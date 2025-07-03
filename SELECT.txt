@@ -1,0 +1,26 @@
+SELECT
+ct.name
+,st.sale_dt
+,st.price
+,st.qty
+,st.product
+,st.location_id
+,st.discount
+,lt.location
+FROM 
+saled_tbl AS st
+Inner join contact_tbl as ct ON st.contact_id = ct.id
+INNER join location_tbl as lt on st.location_id = lt.id;
+
+SELECT 
+ct.name
+,lect.subject
+,lect.teacher 
+,lect.root_num
+,lect.start_dt
+,lect.end_dt
+,let.score
+from
+learn_tbl as let
+Inner join contact_tbl as ct on let.contact_id = ct.id
+Inner join lecture_tbl as lect on let.lecture_id = lect.id;

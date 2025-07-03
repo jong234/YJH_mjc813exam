@@ -1,0 +1,68 @@
+-- mydb_0703.contact_tbl definition
+
+CREATE TABLE `contact_tbl` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '자동증가 PK',
+  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL COMMENT '연락처이름',
+  `phoneNumber` varchar(20) COLLATE utf8mb4_general_ci NOT NULL COMMENT '전화번호',
+  `zipNumer` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT '우편번호',
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '이메일주소',
+  `addr` varchar(500) COLLATE utf8mb4_general_ci NOT NULL COMMENT '주소',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+-- mydb_0703.learn_tbl definition
+
+CREATE TABLE `learn_tbl` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '자동증가 PK',
+  `lecture_id` int unsigned NOT NULL COMMENT '강의정보 lecture_tbl.id',
+  `score` decimal(4,1) NOT NULL COMMENT '점수',
+  `contact_id` int unsigned NOT NULL COMMENT '수강자정보 contact_tbl.id',
+  PRIMARY KEY (`id`),
+  KEY `learn_tbl_lecture_tbl_FK` (`lecture_id`),
+  KEY `learn_tbl_contact_tbl_FK` (`contact_id`),
+  CONSTRAINT `learn_tbl_contact_tbl_FK` FOREIGN KEY (`contact_id`) REFERENCES `contact_tbl` (`id`),
+  CONSTRAINT `learn_tbl_lecture_tbl_FK` FOREIGN KEY (`lecture_id`) REFERENCES `lecture_tbl` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- mydb_0703.lecture_tbl definition
+
+CREATE TABLE `lecture_tbl` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '자동증가 PK',
+  `subject` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '수강과목',
+  `teacher` varchar(20) COLLATE utf8mb4_general_ci NOT NULL COMMENT '수강교수',
+  `root_num` varchar(10) COLLATE utf8mb4_general_ci NOT NULL COMMENT '강의실번호',
+  `start_dt` date NOT NULL COMMENT '수강시작일',
+  `end_dt` date NOT NULL COMMENT '수강종료일',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- mydb_0703.location_tbl definition
+
+CREATE TABLE `location_tbl` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '자동증가 PK',
+  `location` varchar(500) COLLATE utf8mb4_general_ci NOT NULL COMMENT '배송정보',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- mydb_0703.saled_tbl definition
+
+CREATE TABLE `saled_tbl` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '자동증가 PK',
+  `sale_dt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '판매월일',
+  `price` int unsigned NOT NULL DEFAULT '0' COMMENT '판매단가',
+  `qty` int unsigned NOT NULL DEFAULT '0' COMMENT '판매개수',
+  `product` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '판매물품',
+  `location_id` int unsigned DEFAULT NULL COMMENT '배송장소 location_tbl.id',
+  `discount` int unsigned NOT NULL DEFAULT '0' COMMENT '품목할인',
+  `contact_id` int unsigned NOT NULL COMMENT '판매자 contact_tbl.id',
+  PRIMARY KEY (`id`),
+  KEY `saled_tbl_contact_tbl_FK` (`contact_id`),
+  KEY `saled_tbl_location_tbl_FK` (`location_id`),
+  CONSTRAINT `saled_tbl_contact_tbl_FK` FOREIGN KEY (`contact_id`) REFERENCES `contact_tbl` (`id`),
+  CONSTRAINT `saled_tbl_location_tbl_FK` FOREIGN KEY (`location_id`) REFERENCES `location_tbl` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
