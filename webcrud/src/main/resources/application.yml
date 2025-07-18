@@ -1,0 +1,16 @@
+spring:
+  datasource: # mysql ???
+    url: jdbc:mysql://localhost:3306/webcrud_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# ?????? URL
+    driver-class-name: com.mysql.cj.jdbc.Driver  # JDBC ???? ??? (MySQL? ??)
+    username: webuser  # ?????? ??? ??
+    password: test1234!  # ?????? ????
+  application:
+    name: webcrud
+
+  server:
+    port: 8080
+
+  mustache:
+    chache: false
+    suffix: .html
+
