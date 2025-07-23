@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjh.mymailtest.coffe_crud.service.CoffeeMybatis">
+
+    <insert id="insertCoffe" parameterType="CoffeeDTO" useGeneratedKeys="true" keyProperty="id">
+        insert into coffee_tbl (
+            name
+            ,price
+            ,source
+            ,shots
+        )values (
+                 #{name}
+                ,#{price}
+                ,#{source}
+                ,#{shots}
+                        )
+    </insert>
+    
+</mapper>

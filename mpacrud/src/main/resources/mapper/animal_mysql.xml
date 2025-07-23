@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjh.mymailtest.mpacrud.animal.">
+    <insert id="insertAnimal" parameterType="AnimalDto">
+        INSERT into animal_tbl(
+            name
+            ,age
+            ,kind
+        )values (
+                 #{name}
+                ,#{age}
+                ,#{kind}
+                        )
+    </insert>
+</mapper>

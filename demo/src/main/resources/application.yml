@@ -1,0 +1,20 @@
+spring:
+  datasource: # mysql ???
+    url: jdbc:mysql://localhost:3306/coffe_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# ?????? URL
+    driver-class-name: com.mysql.cj.jdbc.Driver  # JDBC ???? ??? (MySQL? ??)
+    username: coffe_user  # ?????? ??? ??
+    password: test1234!  # ?????? ????
+  application:
+    name: webcrud
+  mustache:
+    cache: false
+    suffix: .html
+
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml	# /src/main/resources/mapper/**/*.xml ???? xml ??? ????. mapper/abc/*.xml, mapper/dfiek/*.xml, mapper/a/b/c/*.xml ?? ???.
+  configuration:
+    map-underscore-to-camel-case: true	# DB? ???? abc_def ????? abcDef camelCase ????.(Java? ???)
+  type-aliases-package: com.mjc813.webcrud

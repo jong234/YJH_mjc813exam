@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjh.mymailtest.webcrud.member.IMemberMyvatis">
+
+    <insert id="addMember" parameterType="MemberDto">
+        INSERT into member_tbl(
+            userId
+            ,passwd
+            ,name
+            ,nickName
+        )values (
+            #{userId}
+            ,#{passwd}
+            ,#{name}
+            ,#{nickName}
+        )
+	</insert>
+
+    <select id="findAll" resultType="MemberDto">
+        SELECT
+            id
+            ,userId
+            ,name
+            ,nickName
+        from member_tbl
+        where id = {{#id}}
+    </select>
+</mapper>
