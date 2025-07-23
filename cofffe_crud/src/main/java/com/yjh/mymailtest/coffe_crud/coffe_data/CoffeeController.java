@@ -3,9 +3,11 @@ package com.yjh.mymailtest.coffe_crud.coffe_data;
 import com.yjh.mymailtest.coffe_crud.service.CoffeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import java.util.List;
 
 @Controller
 public class CoffeeController {
@@ -26,6 +28,18 @@ public class CoffeeController {
     public String insertCoffee(@ModelAttribute CoffeeDTO coffee) {
         this.coffeeRepository.insertCoffee(coffee);
         return "redirect:./";
+    }
+
+    @GetMapping("/coffee/list")
+    public String selectAllCoffee(Model model) {
+        List<CoffeeDTO> list = null;
+       try{
+           list = this.coffeeRepository.selectAllCoffee();
+           model.addAttribute("listAll", list);
+       }catch (Throwable throwable){
+           throwable.printStackTrace();
+       }
+       return "/coffee/list";
     }
 
 }

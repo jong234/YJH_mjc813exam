@@ -4,17 +4,22 @@
 <mapper namespace="com.yjh.mymailtest.coffe_crud.service.CoffeeMybatis">
 
     <insert id="insertCoffe" parameterType="CoffeeDTO" useGeneratedKeys="true" keyProperty="id">
-        insert into coffee_tbl (
-            name
-            ,price
-            ,source
-            ,shots
-        )values (
-                 #{name}
-                ,#{price}
-                ,#{source}
-                ,#{shots}
-                        )
+        insert into coffee_tbl ( name
+                               , price
+                               , source
+                               , shots)
+        values ( #{name}
+               , #{price}
+               , #{source}
+               , #{shots})
     </insert>
+
+    <select id="selectAllCoffee" parameterType="CoffeeDTO">
+        select name
+             , price
+             , source
+             , shots
+        from coffee_tbl
+    </select>
     
 </mapper>
