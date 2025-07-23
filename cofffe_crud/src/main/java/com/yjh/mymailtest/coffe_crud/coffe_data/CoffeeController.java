@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
@@ -41,5 +43,14 @@ public class CoffeeController {
        }
        return "/coffee/list";
     }
+
+    @GetMapping("/coffee/update")
+    public String updateCoffee(@RequestParam("id") Long id, Model model) {
+            try {
+                CoffeeDTO result = this.coffeeRepository
+            }
+        return "/coffee/update";
+    }
+
 
 }

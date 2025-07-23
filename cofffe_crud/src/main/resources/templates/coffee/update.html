@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>업데이트 화면</title>
+</head>
+<body>
+<h1>커피 데이터 입력</h1>
+{{#update}}
+<form id="formId" name="formId" method="post" action="./update">
+    <ul>
+        <li><label for="name">커피 이름 : <input type="text" id="name" name="name" value="{{name}}" maxlength="30"></label></li>
+        <li><label for="price">커피 가격 : <input type="text" id="price" name="price" value="{{price}}" maxlength="100"></label></li>
+        <li><label for="source">커피 소스 : <input type="text" id="source" name="source" value="{{source}}" maxlength="30"></label></li>
+        <li><label for="shots">커피 샷 : <input type="text" id="shots" name="shots" value="{{shots}}" maxlength="30"></label></li>
+    </ul>
+    <input type="submit" value="수정 완료">
+</form>
+{{/update}}
+</body>
+</html>

@@ -17,4 +17,9 @@ public class CoffeeRepository {
     public List<CoffeeDTO> selectAllCoffee() {
         return this.coffeeMybatis.selectAllCoffee();
     }
+    
+
+    public void updateCoffee(CoffeeDTO coffee) {
+        this.coffeeMybatis.updateCoffe(coffee);
+    }
 }

@@ -21,5 +21,24 @@
              , shots
         from coffee_tbl
     </select>
-    
+
+    <select id="selectOneCoffee" parameterType="CoffeeDTO">
+        select name
+            , price
+            , source
+            , shots
+        from coffee_tbl
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="CoffeeDTO">
+        update coffee_tbl
+        set name   = #{name}
+          , price  = #{price}
+          , source = #{source}
+          , shots  = #{shots}
+        where id = #{id}
+    </update>
+
+
 </mapper>
