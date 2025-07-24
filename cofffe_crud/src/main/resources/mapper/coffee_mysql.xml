@@ -15,7 +15,8 @@
     </insert>
 
     <select id="selectAllCoffee" parameterType="CoffeeDTO">
-        select name
+        select id
+             , name
              , price
              , source
              , shots
