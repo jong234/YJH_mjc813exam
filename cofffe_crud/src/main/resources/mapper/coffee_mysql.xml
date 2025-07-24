@@ -22,8 +22,10 @@
         from coffee_tbl
     </select>
 
-    <select id="selectOneCoffee" parameterType="CoffeeDTO">
-        select name
+    <select id="selectOneCoffee" parameterType="Long" resultType="CoffeeDTO">
+        select
+            id
+            ,name
             , price
             , source
             , shots
@@ -31,7 +33,7 @@
         where id = #{id}
     </select>
 
-    <update id="update" parameterType="CoffeeDTO">
+    <update id="updateCoffee" parameterType="CoffeeDTO">
         update coffee_tbl
         set name   = #{name}
           , price  = #{price}

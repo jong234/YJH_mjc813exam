@@ -6,8 +6,9 @@
 </head>
 <body>
 <h1>커피 데이터 입력</h1>
-{{#update}}
+{{#updateCoffee}}
 <form id="formId" name="formId" method="post" action="./update">
+    <input type="hidden" id="id" name="id" value="{{id}}">
     <ul>
         <li><label for="name">커피 이름 : <input type="text" id="name" name="name" value="{{name}}" maxlength="30"></label></li>
         <li><label for="price">커피 가격 : <input type="text" id="price" name="price" value="{{price}}" maxlength="100"></label></li>
@@ -16,6 +17,6 @@
     </ul>
     <input type="submit" value="수정 완료">
 </form>
-{{/update}}
+{{/updateCoffee}}
 </body>
 </html>

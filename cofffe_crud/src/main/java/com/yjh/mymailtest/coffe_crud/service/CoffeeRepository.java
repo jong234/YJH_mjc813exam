@@ -17,9 +17,13 @@ public class CoffeeRepository {
     public List<CoffeeDTO> selectAllCoffee() {
         return this.coffeeMybatis.selectAllCoffee();
     }
-    
+
+
+    public CoffeeDTO selectOneCoffee(Long id) {
+      return this.coffeeMybatis.selectOneCoffee(id);
+    }
 
     public void updateCoffee(CoffeeDTO coffee) {
-        this.coffeeMybatis.updateCoffe(coffee);
+        this.coffeeMybatis.updateCoffee(coffee);
     }
 }

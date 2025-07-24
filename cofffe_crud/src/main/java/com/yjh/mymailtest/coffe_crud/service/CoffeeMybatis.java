@@ -8,5 +8,6 @@ import java.util.List;
 public interface CoffeeMybatis {
     public void insertCoffe(CoffeeDTO coffee);
     public List<CoffeeDTO> selectAllCoffee();
-    public void updateCoffe(CoffeeDTO coffee);
+    public void updateCoffee(CoffeeDTO coffee);
+    public CoffeeDTO selectOneCoffee(Long id);
 }

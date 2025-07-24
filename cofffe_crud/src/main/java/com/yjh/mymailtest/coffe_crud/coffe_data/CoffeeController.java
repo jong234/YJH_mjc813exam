@@ -46,10 +46,24 @@ public class CoffeeController {
 
     @GetMapping("/coffee/update")
     public String updateCoffee(@RequestParam("id") Long id, Model model) {
-            try {
-                CoffeeDTO result = this.coffeeRepository
-            }
+        try{
+            CoffeeDTO coffeeDTO = this.coffeeRepository.selectOneCoffee(id);
+            model.addAttribute("updateCoffee", coffeeDTO);
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
         return "/coffee/update";
+    }
+
+    @PostMapping("/coffee/update")
+    public String updateCoffee(@ModelAttribute CoffeeDTO coffee) {
+        try{
+            coffeeRepository.updateCoffee(coffee);
+
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
+        return "redirect:./list";
     }
 
 
