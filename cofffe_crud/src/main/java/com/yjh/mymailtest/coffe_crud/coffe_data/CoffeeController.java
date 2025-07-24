@@ -29,7 +29,7 @@ public class CoffeeController {
     @PostMapping("/coffee/add")
     public String insertCoffee(@ModelAttribute CoffeeDTO coffee) {
         this.coffeeRepository.insertCoffee(coffee);
-        return "redirect:./";
+        return "redirect:./list";
     }
 
     @GetMapping("/coffee/list")
@@ -66,5 +66,14 @@ public class CoffeeController {
         return "redirect:./list";
     }
 
+    @PostMapping("/coffee/delete")
+    public String deleteCoffee(@ModelAttribute CoffeeDTO coffee) {
+        try {
+            coffeeRepository.deleteCoffee(coffee.getId());
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
+        return "redirect:./list";
+    }
 
 }

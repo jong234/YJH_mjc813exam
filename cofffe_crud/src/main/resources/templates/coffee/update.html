@@ -17,6 +17,11 @@
     </ul>
     <input type="submit" value="수정 완료">
 </form>
+<form id="delete" name="delete" method="post" action="./delete">
+    <input type="hidden" name="id" value="{{id}}" />
+    <input type="submit" value="삭제" />
+</form>
 {{/updateCoffee}}
+
 </body>
 </html>

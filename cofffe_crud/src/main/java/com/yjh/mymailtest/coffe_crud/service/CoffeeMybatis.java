@@ -10,4 +10,5 @@ public interface CoffeeMybatis {
     public List<CoffeeDTO> selectAllCoffee();
     public void updateCoffee(CoffeeDTO coffee);
     public CoffeeDTO selectOneCoffee(Long id);
+    public CoffeeDTO deleteCoffee(Long id);
 }

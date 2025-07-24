@@ -42,5 +42,11 @@
         where id = #{id}
     </update>
 
+    <delete id="deleteCoffee" parameterType="Long">
+        delete
+        from coffee_tbl
+        where id = #{id}
+    </delete>
+
 
 </mapper>

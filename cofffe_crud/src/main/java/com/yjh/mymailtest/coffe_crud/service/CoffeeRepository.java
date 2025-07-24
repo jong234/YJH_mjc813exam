@@ -26,4 +26,7 @@ public class CoffeeRepository {
     public void updateCoffee(CoffeeDTO coffee) {
         this.coffeeMybatis.updateCoffee(coffee);
     }
+    public CoffeeDTO deleteCoffee(Long id) {
+        return this.coffeeMybatis.deleteCoffee(id);
+    }
 }
