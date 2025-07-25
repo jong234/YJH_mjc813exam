@@ -6,6 +6,15 @@
 </head>
 <body>
 <h1>커피 목록 조회</h1>
+<div>
+    <h5>커피 검색</h5>
+    <label for="searchType">검색종류</label>
+    <select id="searchType" name="searchType">
+        <option value="name">이름검색</option>
+    </select>
+    <label for="searchWord">포함단어</label><input type="text" id="searchWord" name="searchWord" value="" />
+    <button onclick="doSearch();">검색</button>
+</div>
 {{#listAll}}
 <a href="./update?id={{id}}">
 <ul>
@@ -21,4 +30,12 @@
 {{/listAll}}
 <a href="./insert"><button>데이터 추가</button></a>
 </body>
+<script>
+    function doSearch() {
+        let searchType = document.getElementById("searchType").value;
+        let searchWord = document.getElementById("searchWord").value;
+        let url = "./list?searchType=" + searchType + "&searchWord=" + searchWord;
+        document.location.href = url;
+    }
+</script>
 </html>
