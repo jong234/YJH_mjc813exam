@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 
 public class SwimDTO {
-    private Integer userId;
+    private Integer id;
     private String name;
     private Integer lanes;
     private String lane_type;
