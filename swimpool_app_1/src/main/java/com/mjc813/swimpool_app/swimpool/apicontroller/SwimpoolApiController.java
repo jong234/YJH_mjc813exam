@@ -7,7 +7,6 @@ import com.mjc813.swimpool_app.swimpool.service.SwimpoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,7 +56,7 @@ public class SwimpoolApiController {
 
     // 데이터 1개를 삽입하는 RestFull API
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@Validated @RequestBody SwimpoolDto dto) {
+    public ResponseEntity<ResponseDto> insert(@RequestBody SwimpoolDto dto) {
         try {
             SwimpoolDto result = this.swimpoolService.insert(dto);   // DB 에 insert 쿼리 실행 결과를 리턴한다.
             return ResponseEntity.ok().body(

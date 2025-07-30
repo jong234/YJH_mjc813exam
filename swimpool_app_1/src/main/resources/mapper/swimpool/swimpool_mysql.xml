@@ -14,36 +14,6 @@
         ORDER BY ID DESC
     </select>
 
-    <select id="findByWhere" resultType="SwimpoolDto" parameterType="SwimpoolSearchDto">
-        SELECT
-            id
-             , name
-             , lanes
-             , lane_type
-             , phone_number
-             , addr
-        FROM swimpool_tbl
-        where 1 = 1
-          <if test="name != null or name !=''">
-              and name like concat('%', #{name}, '%')
-          </if>
-        <if test="lanes != null or lanes !=''">
-            and lanes like concat('%', #{lanes}, '%')
-        </if>
-        <if test="lane_type != null or lane_type !=''">
-            and lane_type like concat('%', #{lane_type}, '%')
-        </if>
-        <if test="phone_number != null or phone_number !=''">
-            and phone_number like concat('%', #{phone_number}, '%')
-        </if>
-        <if test="addr != null or addr !=''">
-            and addr like concat('%', #{addr}, '%')
-        </if>
-        ORDER BY ID DESC
-
-
-    </select>
-
     <select id="findById" resultType="SwimpoolDto" parameterType="Integer">
         SELECT
             id
