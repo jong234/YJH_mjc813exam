@@ -1,26 +1,19 @@
 spring:
   application:
-    name: swimpool_app
+    name: cinema_crud
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/serverdbName?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    username:
-    password: test1234!
+    url: jdbc:mysql://localhost:3306/cinema_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: cinema_user
+    password: cinema!@#$1234!
   mustache:
-    enabled: true
-    prefix: classpath:/templates/
     suffix: .html
     charset: UTF-8
     servlet:
       cache: false
 
 server:
-  port: 8081
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+  port: 8184
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml

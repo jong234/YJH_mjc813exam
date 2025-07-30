@@ -2,5 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yjh.cinemagroup.cinema_crud.cinema.service.CinemaMybatisMapper">
+    <insert id="insertCinema" useGeneratedKeys="true" keyProperty="id" parameterType="CinemaDto">
+        INSERT into cinema_tbl( name
+                              , genre_id
+                              , play_time
+                              , casts
+                              , description
+                              , restrict_age)
+        VALUES ( #{name}
+               , #{genre_id}
+               , #{play_time}
+               , #{casts}
+               , #{description}
+               , #{restrict_age})
 
+    </insert>
 </mapper>
