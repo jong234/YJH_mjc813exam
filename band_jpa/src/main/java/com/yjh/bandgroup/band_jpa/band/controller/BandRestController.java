@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,6 +36,27 @@ public class BandRestController {
                     .message("error")
                     .resultCode(90000)
                     .resultData(dto)
+                    .build();
+            return ResponseEntity.status(500).body(result);
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ResponseDto> findAll() {
+        try {
+            List<BandEntity> list = bandService.findAll();
+            ResponseDto result = ResponseDto.builder()
+                    .message("success")
+                    .resultCode(51111)
+                    .resultData(list)
+                    .build();
+            return ResponseEntity.ok(result);
+        }catch (Throwable e){
+            log.error(e.toString());
+            ResponseDto result = ResponseDto.builder()
+                    .message("error")
+                    .resultCode(90000)
+                    .resultData(null)
                     .build();
             return ResponseEntity.status(500).body(result);
         }

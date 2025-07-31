@@ -4,6 +4,7 @@ import com.yjh.bandgroup.band_jpa.band.dto.BandDto;
 import com.yjh.bandgroup.band_jpa.band.dto.BandEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class BandService {
@@ -14,6 +15,9 @@ public class BandService {
         BandEntity entity = new BandEntity(null, dto.getName(), dto.getLeader(), dto.getGuitarFirst(), dto.getGuitarSecond(),dto.getDrum(),dto.getBass(),dto.getKeyboard(),dto.getVocal());
         return bandRepository.save(entity);
 
+    }
 
+    public List<BandEntity> findAll() {
+        return bandRepository.findAll();
     }
 }
