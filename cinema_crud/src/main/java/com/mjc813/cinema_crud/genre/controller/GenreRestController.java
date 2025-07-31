@@ -67,4 +67,20 @@ public class GenreRestController {
         }
     }
 
+    @PatchMapping("")
+    public ResponseEntity<ResponseDto> update(@RequestBody GenreDto dto) {
+        try {
+            dto.setId(this.genreService.selectIdGenre(dto.getId()).getId());
+            this.genreService.updateGenre(dto);
+            return ResponseEntity.ok().body(
+                    new ResponseDto("success", 60020, dto)
+            );
+        }catch (Throwable e) {
+            log.error(e.toString());
+            return ResponseEntity.ok().body(
+                    new ResponseDto("updateById error", 90000, null)
+            );
+        }
+    }
+
 }

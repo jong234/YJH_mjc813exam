@@ -8,4 +8,5 @@ public interface GenreMybatisMapper {
     public void insert(GenreDto dto);
     List<GenreDto> selectGenre();
     GenreDto selectIdGenre(Long id);
+    void updateGenre(GenreDto dto);
 }

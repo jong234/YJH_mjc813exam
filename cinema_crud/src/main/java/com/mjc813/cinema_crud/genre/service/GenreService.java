@@ -19,4 +19,7 @@ public class GenreService {
     public GenreDto selectIdGenre(Long id) {
         return this.genreMybatisMapper.selectIdGenre(id);
     }
+    public void updateGenre(GenreDto dto) {
+        this.genreMybatisMapper.updateGenre(dto);
+    }
 }

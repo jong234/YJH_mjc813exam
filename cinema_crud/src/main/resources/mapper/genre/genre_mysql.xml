@@ -23,4 +23,10 @@
         order by id
     </select>
 
+    <update id="updateGenre" parameterType="GenreDto">
+        update genre_tbl set
+            name = #{name}
+        where id = #{id}
+    </update>
+
 </mapper>
