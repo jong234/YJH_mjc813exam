@@ -6,4 +6,21 @@
         INSERT INTO genre_tbl (name)
         VALUES (#{name})
     </insert>
+
+    <select id="selectGenre" resultType="GenreDto">
+        SELECT
+            id
+            ,name
+        from genre_tbl
+    </select>
+
+    <select id="selectIdGenre" resultType="GenreDto" parameterType="Long">
+        select
+        id
+        ,name
+        from genre_tbl
+        where id = #{id}
+        order by id
+    </select>
+
 </mapper>
