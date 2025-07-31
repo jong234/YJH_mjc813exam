@@ -45,4 +45,7 @@ public class CinemaService {
     public void update(CinemaDto dto) {
         this.cinemaMybatisMapper.update(dto);
     }
+    public void delete(Long id) {
+        this.cinemaMybatisMapper.delete(id);
+    }
 }

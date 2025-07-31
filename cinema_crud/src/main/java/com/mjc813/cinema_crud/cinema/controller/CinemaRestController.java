@@ -100,4 +100,19 @@ public class CinemaRestController {
             );
         }
     }
+
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDto> delete(@RequestBody CinemaDto dto) {
+        try {
+            this.cinemaService.delete(dto.getId());
+            return ResponseEntity.ok().body(
+                    new ResponseDto("success", 40055, dto)
+            );
+        }catch (Throwable e) {
+            log.error(e.toString());
+            return ResponseEntity.ok().body(
+                    new ResponseDto("delete error", 90000, null)
+            );
+        }
+    }
 }

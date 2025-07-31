@@ -58,4 +58,9 @@
             ,restrict_age = #{restrictAge}
         where id = #{id}
     </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM cinema_tbl
+        WHERE id = #{id}
+    </delete>
 </mapper>
