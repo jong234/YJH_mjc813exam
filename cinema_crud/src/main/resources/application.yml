@@ -1,14 +1,14 @@
+# spring.application.name=cinema_crud
 spring:
   application:
     name: cinema_crud
   datasource:
-    url: jdbc:mysql://localhost:3306/cinema_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cinema_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# ?????? URL
     username: cinema_user
     password: cinema!@#$1234!
   mustache:
     suffix: .html
-    charset: UTF-8
     servlet:
       cache: false
 
@@ -16,7 +16,7 @@ server:
   port: 8184
 
 mybatis:
+  type-aliases-package: com.mjc813.cinema_crud
   mapper-locations: classpath:/mapper/**/*.xml
-  type-aliases-package: com.yjh.cinemagroup
   configuration:
     map-underscore-to-camel-case: true
