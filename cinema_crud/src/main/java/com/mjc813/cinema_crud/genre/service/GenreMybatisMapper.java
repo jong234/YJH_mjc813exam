@@ -9,4 +9,5 @@ public interface GenreMybatisMapper {
     List<GenreDto> selectGenre();
     GenreDto selectIdGenre(Long id);
     void updateGenre(GenreDto dto);
+    void deleteGenre(Long id);
 }

@@ -83,4 +83,19 @@ public class GenreRestController {
         }
     }
 
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDto> deleteGenre(@RequestBody GenreDto dto) {
+        try {
+            this.genreService.deleteGenre(dto.getId());
+            return ResponseEntity.ok().body(
+                    new ResponseDto("success", 60030, dto)
+            );
+        }catch (Throwable e) {
+            log.error(e.toString());
+            return ResponseEntity.ok().body(
+                    new ResponseDto("deleteGenre error", 90000, null)
+            );
+        }
+    }
+
 }

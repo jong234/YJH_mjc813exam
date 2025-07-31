@@ -29,4 +29,9 @@
         where id = #{id}
     </update>
 
+    <delete id="deleteGenre" parameterType="Long">
+        delete from genre_tbl
+        where id = #{id}
+    </delete>
+
 </mapper>

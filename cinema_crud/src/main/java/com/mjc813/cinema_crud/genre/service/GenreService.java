@@ -22,4 +22,8 @@ public class GenreService {
     public void updateGenre(GenreDto dto) {
         this.genreMybatisMapper.updateGenre(dto);
     }
+
+    public void deleteGenre(Long id) {
+        this.genreMybatisMapper.deleteGenre(id);
+    }
 }
