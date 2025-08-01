@@ -61,4 +61,25 @@ public class BandRestController {
             return ResponseEntity.status(500).body(result);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
+        try {
+            BandEntity entity = bandService.findById(id);
+            ResponseDto result = ResponseDto.builder()
+                    .message("success")
+                    .resultCode(51111)
+                    .resultData(entity)
+                    .build();
+            return ResponseEntity.ok(result);
+        }catch (Throwable e){
+            log.error(e.toString());
+            ResponseDto result = ResponseDto.builder()
+                    .message("error")
+                    .resultCode(90000)
+                    .resultData(null)
+                    .build();
+            return ResponseEntity.status(500).body(result);
+        }
+    }
 }

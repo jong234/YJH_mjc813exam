@@ -5,6 +5,7 @@ import com.yjh.bandgroup.band_jpa.band.dto.BandEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BandService {
@@ -19,5 +20,10 @@ public class BandService {
 
     public List<BandEntity> findAll() {
         return bandRepository.findAll();
+    }
+
+    public BandEntity findById(Long id) {
+        Optional<BandEntity> optional = bandRepository.findById(id);
+        return optional.orElse(null);
     }
 }
