@@ -31,4 +31,9 @@ public class BandService {
         bandRepository.save(entity);
         this.bandRepository.flush();
     }
+
+    public void delete(Long id) {
+        bandRepository.deleteById(id);
+        this.bandRepository.flush();
+    }
 }

@@ -103,4 +103,25 @@ public class BandRestController {
             return ResponseEntity.status(500).body(result);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long id) {
+        try {
+            bandService.delete(id);
+            ResponseDto result = ResponseDto.builder()
+                    .message("success")
+                    .resultCode(53333)
+                    .resultData(id)
+                    .build();
+            return ResponseEntity.ok(result);
+        }catch (Throwable e){
+            log.error(e.toString());
+            ResponseDto result = ResponseDto.builder()
+                    .message("error")
+                    .resultCode(90000)
+                    .resultData(null)
+                    .build();
+            return ResponseEntity.status(500).body(result);
+        }
+    }
 }
