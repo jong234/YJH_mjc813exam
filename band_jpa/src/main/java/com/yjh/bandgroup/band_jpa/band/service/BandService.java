@@ -26,4 +26,9 @@ public class BandService {
         Optional<BandEntity> optional = bandRepository.findById(id);
         return optional.orElse(null);
     }
+
+    public void update(BandEntity entity) {
+        bandRepository.save(entity);
+        this.bandRepository.flush();
+    }
 }

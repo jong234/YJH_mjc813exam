@@ -68,8 +68,29 @@ public class BandRestController {
             BandEntity entity = bandService.findById(id);
             ResponseDto result = ResponseDto.builder()
                     .message("success")
-                    .resultCode(51111)
+                    .resultCode(52222)
                     .resultData(entity)
+                    .build();
+            return ResponseEntity.ok(result);
+        }catch (Throwable e){
+            log.error(e.toString());
+            ResponseDto result = ResponseDto.builder()
+                    .message("error")
+                    .resultCode(90000)
+                    .resultData(null)
+                    .build();
+            return ResponseEntity.status(500).body(result);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseDto> update(@RequestBody BandEntity dto) {
+        try {
+            bandService.update(dto);
+            ResponseDto result = ResponseDto.builder()
+                    .message("success")
+                    .resultCode(53333)
+                    .resultData(dto)
                     .build();
             return ResponseEntity.ok(result);
         }catch (Throwable e){
