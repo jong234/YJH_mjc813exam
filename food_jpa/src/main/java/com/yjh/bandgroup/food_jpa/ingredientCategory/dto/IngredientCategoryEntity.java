@@ -1,5 +1,6 @@
 package com.yjh.bandgroup.food_jpa.ingredientCategory.dto;
 
+import com.yjh.bandgroup.food_jpa.common.IIdName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "ingredientCategoryEntity")
 @Table(name = "ingredient_category_tbl")
-public class IngredientCategoryEntity {
+public class IngredientCategoryEntity implements IIdName {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
