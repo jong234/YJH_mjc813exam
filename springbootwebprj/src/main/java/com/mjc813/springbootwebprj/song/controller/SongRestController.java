@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import java.util.Optional;
 
@@ -76,6 +77,19 @@ public class SongRestController {
             );
         }
     }
-
+    @GetMapping("")
+    public ResponseEntity<ResponseDto> findall() {
+        try {
+            List<SongEntity> dto = this.songRepository.findAll();
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(500).message("Success").resultData(dto).build()
+            );
+        }catch (Throwable throwable) {
+            log.error(throwable.toString());
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(999).message("ERROR").resultData(throwable).build()
+            );
+        }
+    }
 
 }
