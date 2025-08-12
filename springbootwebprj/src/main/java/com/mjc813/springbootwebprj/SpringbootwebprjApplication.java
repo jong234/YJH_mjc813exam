@@ -1,4 +1,4 @@
-package com.yjh.bandgroup.springbootwebprj;
+package com.mjc813.springbootwebprj;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

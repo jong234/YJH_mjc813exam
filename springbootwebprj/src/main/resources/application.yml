@@ -2,8 +2,8 @@ spring:
   application:
     name: springbootwebprj
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:log4jdbc:mysql://localhost:3306/springboot_web_prj_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# ?????? URL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springboot_web_prj_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# ?????? URL
     username: springboot_user
     password: spring1234@
   mustache:
@@ -17,10 +17,10 @@ spring:
       ddl-auto: update
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
-  type-aliases-package: com.yjh.bandgroup.springbootwebprj
+  type-aliases-package: com.mjc813.springbootwebprj
   configuration:
     map-underscore-to-camel-case: true
 
 server:
-  port: 8777
+  port: 8989
 
