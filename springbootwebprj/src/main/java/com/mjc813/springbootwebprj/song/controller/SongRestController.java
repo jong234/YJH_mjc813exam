@@ -20,7 +20,7 @@ public class SongRestController {
         try {
             this.songRepository.save(songEntity);
             return ResponseEntity.status(500).body(
-                    ResponseDto.builder().resultCode(999).message("ERROR").resultData(songEntity).build()
+                    ResponseDto.builder().resultCode(500).message("Success").resultData(songEntity).build()
             );
         }catch (Throwable throwable) {
             log.error(throwable.toString());
@@ -35,7 +35,7 @@ public class SongRestController {
         try {
             this.songRepository.save(songEntity);
             return ResponseEntity.status(500).body(
-                    ResponseDto.builder().resultCode(999).message("ERROR").resultData(songEntity).build()
+                    ResponseDto.builder().resultCode(500).message("Success").resultData(songEntity).build()
             );
         }catch (Throwable throwable) {
             log.error(throwable.toString());
@@ -44,5 +44,5 @@ public class SongRestController {
             );
         }
     }
-    
+
 }
