@@ -11,4 +11,5 @@ public class ResponseDto {
     private Integer resultCode;
     private String message;
     private Object resultData;
+
 }
