@@ -45,4 +45,18 @@ public class SongRestController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long id) {
+        try {
+            this.songRepository.deleteById(id);
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(500).message("Success").resultData(id).build()
+            );
+        }catch (Throwable throwable) {
+            log.error(throwable.toString());
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(999).message("ERROR").resultData(id).build()
+            );
+        }
+    }
 }
