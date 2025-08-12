@@ -4,9 +4,14 @@ import com.mjc813.springbootwebprj.common.ResponseDto;
 import com.mjc813.springbootwebprj.song.dto.SongEntity;
 import com.mjc813.springbootwebprj.song.service.SongRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.util.List;
 
 import java.util.Optional;
@@ -88,6 +93,20 @@ public class SongRestController {
             log.error(throwable.toString());
             return ResponseEntity.status(500).body(
                     ResponseDto.builder().resultCode(999).message("ERROR").resultData(throwable).build()
+            );
+        }
+    }
+
+    @GetMapping("/titleContains")
+    public ResponseEntity<ResponseDto> findByTitleContains(@RequestParam String title, Pageable pageable) {
+        try {
+            Page<SongEntity> page = this.songRepository.findByTitleContains(title, pageable);
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(500).message("Success").resultData(page).build());
+        }catch (Throwable e){
+            log.error(e.toString());
+            return ResponseEntity.status(500).body(
+                    ResponseDto.builder().resultCode(999).message("ERROR").resultData(null).build()
             );
         }
     }
