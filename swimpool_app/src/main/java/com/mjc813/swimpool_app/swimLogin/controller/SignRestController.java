@@ -6,12 +6,15 @@ import com.mjc813.swimpool_app.common.ResponseDto;
 import com.mjc813.swimpool_app.common.ResponseSignDto;
 import com.mjc813.swimpool_app.swimLogin.dto.ISign;
 import com.mjc813.swimpool_app.swimLogin.dto.SignDto;
+import com.mjc813.swimpool_app.swimLogin.dto.SignEntity;
 import com.mjc813.swimpool_app.swimLogin.service.SignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -58,6 +61,17 @@ public class SignRestController extends CommonRestController {
         } catch (Throwable th) {
             log.error(th.toString());
             return this.getReponseEntity(ResponseCode.UPDATE_FAIL, "Error", id, th);
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ResponseSignDto> findAll() {
+        try {
+            List<ISign> list = signService.findAll();
+            return this.getReponseEntity(ResponseCode.SUCCESS, "OK", list, null);
+        } catch (Throwable th) {
+            log.error(th.toString());
+            return this.getReponseEntity(ResponseCode.DELETE_FAIL, "Error", "", th);
         }
     }
 }

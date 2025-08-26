@@ -5,6 +5,7 @@ import com.mjc813.swimpool_app.swimLogin.dto.SignDto;
 import com.mjc813.swimpool_app.swimLogin.dto.SignEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class SignService {
@@ -27,5 +28,12 @@ public class SignService {
         this.signRepository.deleteById(id);
         return true;
 
+    }
+
+    public List<ISign> findAll() {
+        List<SignEntity> all = this.signRepository.findAll();
+        List<ISign> result = all.parallelStream()
+                .map(x -> (ISign)x).toList();
+        return result;
     }
 }
