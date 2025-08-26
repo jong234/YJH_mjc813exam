@@ -18,4 +18,8 @@ public class SignService {
         SignEntity result = this.signRepository.save(entity);
         return result;
     }
+
+    public ISign updateRepository(SignDto dto) {
+        return this.insertRepository(dto);
+    }
 }
