@@ -74,4 +74,15 @@ public class SignRestController extends CommonRestController {
             return this.getReponseEntity(ResponseCode.DELETE_FAIL, "Error", "", th);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseSignDto> findById(@PathVariable Long id){
+        try {
+            ISign sign = this.signService.findByIdRepository(id);
+            return this.getReponseEntity(ResponseCode.SUCCESS, "OK", sign, null);
+        } catch (Throwable th) {
+            log.error(th.toString());
+            return this.getReponseEntity(ResponseCode.UPDATE_FAIL, "Error", id, th);
+        }
+    }
 }
