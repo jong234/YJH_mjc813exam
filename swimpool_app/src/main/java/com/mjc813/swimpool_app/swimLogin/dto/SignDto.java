@@ -1,5 +1,6 @@
 package com.mjc813.swimpool_app.swimLogin.dto;
 
+import com.mjc813.swimpool_app.common.IIdName;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SignDto {
+public class SignDto implements ISign {
 
     private Long id;
 
@@ -23,7 +24,7 @@ public class SignDto {
 
     private String email;
 
-    private String phone_number;
+    private String phoneNumber;
 
     private String role;
 

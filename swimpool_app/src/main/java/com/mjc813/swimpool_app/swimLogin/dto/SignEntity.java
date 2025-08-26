@@ -1,5 +1,6 @@
 package com.mjc813.swimpool_app.swimLogin.dto;
 
+import com.mjc813.swimpool_app.common.IIdName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @Entity(name = "SignEntity")
 @Table(name = "user_tbl")
 @Builder
-public class SignEntity {
+public class SignEntity implements ISign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +30,12 @@ public class SignEntity {
     private String email;
 
     @Column(nullable = false, length = 20)
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(nullable = false, length = 20)
     private String role;
 
     @Column(nullable = false)
     private Integer maxLock;
+
 }

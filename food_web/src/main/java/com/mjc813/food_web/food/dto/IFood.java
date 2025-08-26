@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mjc813.food_web.common.IIdName;
 import com.mjc813.food_web.ingredient.dto.IIngredient;
 
-public interface IFood extends IIdName {
+public interface  IFood extends IIdName {
     Integer getSpicyLevel();
     void setSpicyLevel(Integer spicyLevel);
 
