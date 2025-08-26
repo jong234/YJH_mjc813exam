@@ -8,7 +8,7 @@
 <body>
 {{> ./include/topmenu}}
 <div class="container">
-    <div class="bs-docs-section">
+    <div class="bs-docs-section" style="height: 100%;">
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-header">
@@ -85,8 +85,8 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">ID<span id="id_desc" class="sortButton sortDesc">▼</span><span id="id_asc" class="sortButton sortAsc">△</span></th>
-                            <th scope="col">Name<span id="name_desc" class="sortButton sortDesc">▽</span><span id="name_asc" class="sortButton sortAsc">△</span></th>
+                            <th scope="col">ID <span id="id-desc" class="sortButton sortDesc">▼</span><span id="id-asc" class="sortButton sortAsc">△</span></th>
+                            <th scope="col">Name <span id="name-desc" class="sortButton sortDesc">▽</span><span id="name-asc" class="sortButton sortAsc">△</span></th>
                         </tr>
                         </thead>
                         <tbody id="listBody">
@@ -102,7 +102,7 @@
         <ul class="pagination" id="paginationUL">
         </ul>
     </div>
-    <div class="bs-docs-section">
+    <div class="bs-docs-section" style="height: 10px;">
         <div id="modal_box_add" style="display: none" class="row">
             <div class="col-lg-12">
                 <h2>Modals</h2>
@@ -220,7 +220,7 @@
     }
 
     $.makeOneRow = function(item) {
-        let html = `<tr onclick="$.showInfo(${item.id})">
+        let html = `<tr class="dataRow" onclick="$.showInfo(${item.id})">
                         <th scope="row">${item.id}</th>
                         <td>${item.name}</td>
                     </tr>`;
@@ -301,7 +301,7 @@
 
     $.getSortButton = (tag) => {
         let str = $(tag)[0].id;
-        let arr = str.split("_");
+        let arr = str.split("-");
         let req = `${arr[0]},${arr[1]}`;
         console.log( req );
 
@@ -332,7 +332,7 @@
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);
@@ -349,6 +349,7 @@
         $('#modal_box_add').fadeIn(500);
         $('.modal_bg').fadeIn(500);
         if( mode === 1 ) {
+            $.clearModalForm();
             $("#modal_title").text("입력 창")
         } else if ( mode === 2 ) {
             $("#modal_title").text("보기/수정 창")
@@ -393,7 +394,7 @@
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);
@@ -408,7 +409,7 @@
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);

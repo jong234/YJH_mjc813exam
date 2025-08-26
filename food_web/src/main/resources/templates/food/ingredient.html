@@ -2,17 +2,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>재료</title>
+    <title>재료 정보</title>
     {{> ./include/css}}
 </head>
 <body>
 {{> ./include/topmenu}}
 <div class="container">
-    <div class="bs-docs-section">
+    <div class="bs-docs-section" style="height: 100%;">
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-header">
-                    <h1 id="tables">재료</h1>
+                    <h1 id="tables">재료 정보</h1>
                 </div>
                 <p class="bs-component">
                     <button type="button" id="showAddModalButton" class="btn btn-primary">Primary</button>
@@ -51,13 +51,9 @@
                                         <a class="nav-link" href="#">About</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Separated link</a>
+                                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="searchIngredientCategoryName">All</a>
+                                        <input type="hidden" id="searchIngredientCategoryId" />
+                                        <div class="dropdown-menu" id="selectIngredientCategoryName">
                                         </div>
                                     </li>
                                     <li class="nav-item dropdown">
@@ -67,8 +63,6 @@
                                             <a class="dropdown-item" href="javascript:$.setPageSize(10);">10</a>
                                             <a class="dropdown-item" href="javascript:$.setPageSize(20);">20</a>
                                             <a class="dropdown-item" href="javascript:$.setPageSize(30);">30</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Separated link</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -85,8 +79,9 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">ID<span id="id_desc" class="sortButton sortDesc">▼</span><span id="id_asc" class="sortButton sortAsc">△</span></th>
-                            <th scope="col">Name<span id="name_desc" class="sortButton sortDesc">▽</span><span id="name_asc" class="sortButton sortAsc">△</span></th>
+                            <th scope="col">ID <span id="id-desc" class="sortButton sortDesc">▼</span><span id="id-asc" class="sortButton sortAsc">△</span></th>
+                            <th scope="col">Name <span id="name-desc" class="sortButton sortDesc">▽</span><span id="name-asc" class="sortButton sortAsc">△</span></th>
+                            <th scope="col">타입 <span id="ingredient_category_id-desc" class="sortButton sortDesc">▽</span><span id="ingredient_category_id-asc" class="sortButton sortAsc">△</span></th>
                         </tr>
                         </thead>
                         <tbody id="listBody">
@@ -102,7 +97,7 @@
         <ul class="pagination" id="paginationUL">
         </ul>
     </div>
-    <div class="bs-docs-section">
+    <div class="bs-docs-section" style="height: 10px;">
         <div id="modal_box_add" style="display: none" class="row">
             <div class="col-lg-12">
                 <h2>Modals</h2>
@@ -120,12 +115,12 @@
                                             <input type="text" class="form-control" placeholder="id" id="id" disabled="">
                                         </div>
                                         <div>
-                                            <label class="col-form-label mt-4" for="name">재료이름</label>
-                                            <input type="text" class="form-control" placeholder="재료이름" id="name" maxlength="40">
+                                            <label class="col-form-label mt-4" for="name">재료</label>
+                                            <input type="text" class="form-control" placeholder="재료" id="name" maxlength="40">
                                         </div>
                                         <div>
-                                            <label class="col-form-label mt-4" for="name">재료이름</label>
-                                            <input type="text" class="form-control" placeholder="재료이름" id="name" maxlength="40">
+                                            <label class="col-form-label mt-4" for="ingredientCategoryId">타입</label>
+                                            <select id="ingredientCategoryId"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -144,16 +139,18 @@
     </div>
     {{> ./include/footer}}
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script src="/bootswatch/brite/js/bootstrap.bundle.min.js"></script>
 <script src="/bootswatch/brite/js/prism.js" data-manual></script>
 <script src="/bootswatch/brite/js/custom.js"></script>
+<script src="/js/jquery-3.7.1.min.js"></script>
 
 <script>
     let modalMode = 1;
     let sortString = "id,desc";
     let curPage = 1;
     $(document).ready(function(){
+        $.loadIngredientCategories();
         $.loadData($.getPagable());
 
         $('#showAddModalButton').click(function () {
@@ -196,16 +193,49 @@
     $.getPagable = () => {
         let data = {
             "name": $("#searchText").val(),
+            "ingredientCategoryId": $("#searchIngredientCategoryName").text() === 'All' ? 0 : $("#searchIngredientCategoryId").val(),
             "page": curPage - 1,
             "size": $("#pageSize").text(),
             "sort": sortString,
         };
         return data;
     }
-    $.loadData = (pagable) => {
-        let url = `?name=${pagable.name}&page=${pagable.page}&size=${pagable.size}&sort=${pagable.sort}`;
+
+    $.loadIngredientCategories = () => {
         $.ajax({
-            url: '/api/v1/ingredient_category/search' + url,
+            url: '/api/v1/ingredient_category/search?name=&page=0&size=9999999&sort=name,asc',
+            method: 'GET'
+        }).done(function(data, textStatus, jqXHR) {
+            console.log("Success:", data.result);
+            $.printIngredientCategory(data.result.content);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log("Error:", textStatus, errorThrown);
+            alert(`${jqXHR.responseJSON.code} : ${jqXHR.responseJSON.message}`);
+        });
+    }
+
+    $.printIngredientCategory = (list) => {
+        $("#ingredientCategoryId").empty();
+        $("#selectIngredientCategoryName").empty();
+        $("#selectIngredientCategoryName").append("<a class=\"dropdown-item\" href=\"javascript:$.setIngredientCategoryId(0, 'All');\">All</a>");
+        for (let item of list) {
+            let opt = `<option value="${item.id}">${item.name}</option>`;
+            $("#ingredientCategoryId").append(opt);
+            let aTag = `<a class="dropdown-item" href="javascript:$.setIngredientCategoryId(${item.id}, '${item.name}');">${item.name}</a>`;
+            $("#selectIngredientCategoryName").append(aTag);
+        }
+    }
+
+    $.setIngredientCategoryId = (ingredientCategoryId, ingredientCategoryName) => {
+        $("#searchIngredientCategoryId").val(ingredientCategoryId);
+        $("#searchIngredientCategoryName").text(ingredientCategoryName);
+        $.loadData($.getPagable());
+    }
+
+    $.loadData = (pagable) => {
+        let url = `?name=${pagable.name}&ingredientCategoryId=${pagable.ingredientCategoryId}&page=${pagable.page}&size=${pagable.size}&sort=${pagable.sort}`;
+        $.ajax({
+            url: '/api/v1/ingredient/search' + url,
             method: 'GET'
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
@@ -222,9 +252,10 @@
     }
 
     $.makeOneRow = function(item) {
-        let html = `<tr onclick="$.showInfo(${item.id})">
+        let html = `<tr class="dataRow" onclick="$.showInfo(${item.id})">
                         <th scope="row">${item.id}</th>
                         <td>${item.name}</td>
+                        <td>${item.ingredientCategoryName}</td>
                     </tr>`;
         return html;
     }
@@ -303,7 +334,7 @@
 
     $.getSortButton = (tag) => {
         let str = $(tag)[0].id;
-        let arr = str.split("_");
+        let arr = str.split("-");
         let req = `${arr[0]},${arr[1]}`;
         console.log( req );
 
@@ -323,10 +354,11 @@
         let dataMember = {
             // "id": 0,
             "name": $("#name").val(),
+            "ingredientCategoryId": $("#ingredientCategoryId").val(),
         };
 
         $.ajax({
-            url: '/api/v1/ingredient_category',
+            url: '/api/v1/ingredient',
             type: "POST",
             data: JSON.stringify(dataMember),
             datatype: "JSON",
@@ -334,7 +366,7 @@
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);
@@ -345,12 +377,14 @@
     $.clearModalForm = () => {
         $("#id").val("");
         $("#name").val("");
+        $("#ingredientCategoryId").val("");
     }
 
     $.showModal = (mode) => {
         $('#modal_box_add').fadeIn(500);
         $('.modal_bg').fadeIn(500);
         if( mode === 1 ) {
+            $.clearModalForm();
             $("#modal_title").text("입력 창")
         } else if ( mode === 2 ) {
             $("#modal_title").text("보기/수정 창")
@@ -360,7 +394,7 @@
 
     $.showInfo = function(id) {
         $.ajax({
-            url: '/api/v1/ingredient_category/' + id,
+            url: '/api/v1/ingredient/' + id,
             method: 'GET'
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
@@ -377,6 +411,7 @@
         }
         $("#id").val(item.id);
         $("#name").val(item.name);
+        $("#ingredientCategoryId").val(item.ingredientCategoryId);
         $.showModal(2);
     }
 
@@ -384,10 +419,11 @@
         let dataMember = {
             "id": $("#id").val(),
             "name": $("#name").val(),
+            "ingredientCategoryId": $("#ingredientCategoryId").val(),
         };
 
         $.ajax({
-            url: '/api/v1/ingredient_category/' + $("#id").val(),
+            url: '/api/v1/ingredient/' + $("#id").val(),
             type: "PATCH",
             data: JSON.stringify(dataMember),
             datatype: "JSON",
@@ -395,7 +431,7 @@
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);
@@ -405,12 +441,12 @@
 
     $.delete = function() {
         $.ajax({
-            url: '/api/v1/ingredient_category/' + $("#id").val(),
+            url: '/api/v1/ingredient/' + $("#id").val(),
             type: "DELETE",
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
-            $.loadData();
+            $.loadData($.getPagable());
             $(".modalCloseButton").trigger("click");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error:", textStatus, errorThrown);

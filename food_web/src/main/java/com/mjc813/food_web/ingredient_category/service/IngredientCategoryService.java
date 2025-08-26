@@ -1,7 +1,6 @@
 package com.mjc813.food_web.ingredient_category.service;
 
 import com.mjc813.food_web.common.IIdName;
-import com.mjc813.food_web.food_category.dto.FoodCategoryEntity;
 import com.mjc813.food_web.ingredient_category.dto.IngredientCategoryDto;
 import com.mjc813.food_web.ingredient_category.dto.IngredientCategoryEntity;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -85,7 +84,7 @@ public class IngredientCategoryService {
     }
 
     public Page<IngredientCategoryEntity> findByNameContainsRepository(String name, Pageable pageable) {
-        Page<IngredientCategoryEntity> list = this.repository.findByNameContains(name, pageable);
-        return list;
+        Page<IngredientCategoryEntity> page = this.repository.findByNameContains(name, pageable);
+        return page;
     }
 }
