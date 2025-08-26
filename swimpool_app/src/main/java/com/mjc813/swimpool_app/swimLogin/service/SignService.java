@@ -22,4 +22,10 @@ public class SignService {
     public ISign updateRepository(SignDto dto) {
         return this.insertRepository(dto);
     }
+
+    public Boolean deleteRepository(Long id) {
+        this.signRepository.deleteById(id);
+        return true;
+
+    }
 }

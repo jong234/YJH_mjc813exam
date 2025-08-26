@@ -48,4 +48,16 @@ public class SignRestController extends CommonRestController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseSignDto> delete(
+            @PathVariable Long id
+    ){
+        try {
+            this.signService.deleteRepository(id);
+            return this.getReponseEntity(ResponseCode.SUCCESS, "OK", true, null);
+        } catch (Throwable th) {
+            log.error(th.toString());
+            return this.getReponseEntity(ResponseCode.UPDATE_FAIL, "Error", id, th);
+        }
+    }
 }
