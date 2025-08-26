@@ -22,6 +22,4 @@ public class SwimpoolDto {
     private String laneType;
     private String phoneNumber;
     private String addr;
-
-
 }
