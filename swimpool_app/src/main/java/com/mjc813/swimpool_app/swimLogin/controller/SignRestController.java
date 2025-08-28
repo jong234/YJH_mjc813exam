@@ -71,7 +71,7 @@ public class SignRestController extends CommonRestController {
             return this.getReponseEntity(ResponseCode.SUCCESS, "OK", list, null);
         } catch (Throwable th) {
             log.error(th.toString());
-            return this.getReponseEntity(ResponseCode.DELETE_FAIL, "Error", "", th);
+            return this.getReponseEntity(ResponseCode.NOTFOUND_FAIL, "Error", "", th);
         }
     }
 
@@ -82,7 +82,7 @@ public class SignRestController extends CommonRestController {
             return this.getReponseEntity(ResponseCode.SUCCESS, "OK", sign, null);
         } catch (Throwable th) {
             log.error(th.toString());
-            return this.getReponseEntity(ResponseCode.UPDATE_FAIL, "Error", id, th);
+            return this.getReponseEntity(ResponseCode.NOTFOUND_FAIL, "Error", id, th);
         }
     }
 }
