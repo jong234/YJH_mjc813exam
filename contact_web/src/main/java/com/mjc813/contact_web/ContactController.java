@@ -1,6 +1,9 @@
 package com.mjc813.contact_web;
 
 import com.mjc813.contact_web.dto.Contact;
+import com.mjc813.contact_web.dto.PagingDto;
+import com.mjc813.contact_web.exception.exception.CommonExceptionTemplate;
+import com.mjc813.contact_web.exception.exception.MemberException;
 import com.mjc813.contact_web.service.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/contact")
 public class ContactController {
     @Autowired
@@ -29,61 +32,62 @@ public class ContactController {
         } catch (Throwable e) {
             System.out.println(e.toString());
         }
-        return "redirect:/contact/list";
+        return "redirect:/";
     }
 
     @GetMapping("/list")
-    public String selectAll(Model model) {
+    public String selectAll(Model model
+            , @ModelAttribute PagingDto pagingDto
+        ) {
         List<Contact> contacts = null;
         try {
-            contacts = this.contactRepository.selectAll();
+            Long totRows = this.contactRepository.acountAll();
+            pagingDto.setTotRows(totRows);
+            contacts = this.contactRepository.selectAll(pagingDto);
         } catch (Throwable e) {
             System.out.println(e.toString());
         }
         model.addAttribute("contacts", contacts);
+        model.addAttribute("paging", pagingDto);
         return "contact/list";
     }
 
     @GetMapping("/view")
-    public String selectOne(Model model, @RequestParam("id") Long id) {
-        Contact contact = null;
+    public String view(@RequestParam("id") Long id, Model model) {
         try {
-            contact = this.contactRepository.selectOne(id);
-            model.addAttribute("contact", contact);
-        }catch (Throwable e) {
-            System.out.println(e.toString());
-        }
-        return "contact/view";
-    }
-
-    @GetMapping("/modify")
-    public String update(@RequestParam("id") Long id, Model model) {
-        try{
-            Contact contact = this.contactRepository.selectOne(id);
-            model.addAttribute("dto", contact);
-        }catch (Throwable e) {
-            System.out.println(e.toString());
-        }
-        return "contact/modify";
-    }
-    @PostMapping("/update")
-    public String update(@ModelAttribute Contact dto) {
-        try {
-                contactRepository.update(dto);
-            // sql 의 update 문장을 실행한다.
+            Contact result = this.contactRepository.selectOne(id);
+            model.addAttribute("contact", result);
         } catch (Throwable e) {
             System.out.println(e.toString());
         }
-        return "redirect:/contact/list";// 정상 실행하면 redirect:/contact/contactlist
+        return "/contact/view";
     }
 
-    @PostMapping("/delete")
-    public String delete(@ModelAttribute Contact dto) {
+    @GetMapping("/modify")
+    public String modify(@RequestParam("id") Long id, Model model) {
         try {
-           contactRepository.delete(dto.getId());
-        }catch (Throwable e) {
+            Contact result = this.contactRepository.selectOne(id);
+            model.addAttribute("dto", result);
+        } catch (Throwable e) {
             System.out.println(e.toString());
         }
-        return "redirect:/contact/list";
+        return "/contact/modify";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute Contact dto) {
+        try {
+            // sql 의 update 문장을 실행한다.
+            this.contactRepository.update(dto);
+        } catch (Throwable e) {
+            System.out.println(e.toString());
+        }
+        return "redirect:./list";// 정상 실행하면 redirect:/contact/list
+    }
+
+    @GetMapping("/test")
+    public String test() throws CommonExceptionTemplate {
+        throw MemberException.NOT_EXIST_MEMBER_ID.getException();
+        // return null;
     }
 }

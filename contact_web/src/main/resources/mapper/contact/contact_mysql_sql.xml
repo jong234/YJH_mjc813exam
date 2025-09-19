@@ -4,32 +4,44 @@
 <mapper namespace="com.mjc813.contact_web.service.IContactMybatisMapper">
 
     <insert id="insert" parameterType="Contact" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO contact_tbl
-            (name, phone_number, zip_number, email)
-        VALUES
-            (#{name}, #{phoneNumber}, #{zipNumber}, #{email})
+        INSERT INTO contact_tbl (
+            name
+            , phone_number
+            , zip_number
+            , email
+        ) VALUES (
+            #{name}
+            , #{phoneNumber}
+            , #{zipNumber}
+            , #{email}
+        )
     </insert>
 
-    <select id="selectAll" resultType="Contact">
+    <select id="countAll" resultType="Long">
+        SELECT count(*) as tot_rows
+        FROM contact_tbl
+    </select>
+
+
+    <select id="selectAll" resultType="Contact" parameterType="PagingDto">
         SELECT id
             , name
             , phone_number
             , zip_number
             , email
         FROM contact_tbl
-        ORDER BY id
+        ORDER BY id DESC
+        LIMIT #{rws} OFFSET #{off}
     </select>
 
     <select id="selectOne" resultType="Contact" parameterType="Long">
-        select
-            id
-            ,name
-            ,phone_number
-            ,zip_number
-            ,email
-        from contact_tbl
-        where id = #{id}
-        order by id
+        SELECT id
+             , name
+             , phone_number
+             , zip_number
+             , email
+        FROM contact_tbl
+        WHERE id = #{id}
     </select>
 
     <update id="update" parameterType="Contact">
@@ -40,10 +52,4 @@
             , email = #{email}
         WHERE id = #{id}
     </update>
-
-    <delete id="delete" parameterType="Long">
-        delete
-        from contact_tbl
-        where id = #{id}
-    </delete>
 </mapper>
