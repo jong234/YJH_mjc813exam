@@ -1,8 +1,6 @@
 package com.mjc813.food_web.food.dto;
 
 import com.mjc813.food_web.food_ingredient.dto.FoodIngredientDto;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

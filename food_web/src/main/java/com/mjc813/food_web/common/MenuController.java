@@ -113,4 +113,9 @@ public class MenuController {
         model.addAttribute("templateFilePrint", fileTestDto);
         return "/file/filedone";
     }
+
+    @GetMapping("/file_spa")
+    public String fileSpa() {
+        return "/file/filerest";
+    }
 }

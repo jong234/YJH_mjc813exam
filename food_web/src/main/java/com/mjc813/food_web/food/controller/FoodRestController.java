@@ -6,9 +6,7 @@ import com.mjc813.food_web.common.ResponseDto;
 import com.mjc813.food_web.food.dto.*;
 import com.mjc813.food_web.food.service.FoodJpaTransactionService;
 import com.mjc813.food_web.food.service.FoodService;
-import com.mjc813.food_web.food_category.dto.FoodCategoryEntity;
 import com.mjc813.food_web.food_ingredient.dto.FoodIngredientDto;
-import com.mjc813.food_web.food_ingredient.dto.FoodIngredientEntity;
 import com.mjc813.food_web.food_ingredient.service.FoodIngredientService;
 import com.mjc813.food_web.ingredient.dto.IngredientDto;
 import com.mjc813.food_web.ingredient_category.dto.IngredientCategoryDto;
@@ -16,11 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class FoodRestController extends CommonRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
         try {
-            FoodIngsResponseDto result = this.foodJpaTransactionService.getFoodAndIngredientList(id);
+            FoodIngsResponseDto result = this.foodJpaTransactionService.getFoodAndIngredientListAndFileList(id);
             return this.getReponseEntity(ResponseCode.SUCCESS, "OK", result, null);
         } catch (Throwable th) {
             log.error(th.toString());
@@ -121,10 +121,11 @@ public class FoodRestController extends CommonRestController {
 
     @PostMapping("/ings")
     public ResponseEntity<ResponseDto> insertFoodIngs(
-            @Validated @RequestBody FoodIngsRequestDto foodIngs
+            @Validated @RequestPart(value = "foodAndIngs", required = true) FoodIngsRequestDto foodIngs
+            , @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList
     ) {
         try {
-            this.foodJpaTransactionService.insert(foodIngs.getFood(), foodIngs.getFoodIngs());
+            this.foodJpaTransactionService.insert(foodIngs.getFood(), foodIngs.getFoodIngs(), fileList);
             return this.getReponseEntity(ResponseCode.SUCCESS, "OK", foodIngs, null);
         } catch (Throwable th) {
             log.error(th.toString());
@@ -169,6 +170,21 @@ public class FoodRestController extends CommonRestController {
         } catch (Throwable th) {
             log.error(th.toString());
             return this.getReponseEntity(ResponseCode.INSERT_FAIL, "Error", null, th);
+        }
+    }
+
+    @GetMapping("/slice_search")
+    public ResponseEntity<ResponseDto> findBySliceSearch(
+            @RequestParam("name") String name
+            , @RequestParam("foodCategoryId") Long foodCategoryId
+            , @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
+            Pageable pageable) {
+        try {
+            Slice<FoodEntity> all = this.foodService.findBySliceSearch(name, foodCategoryId, pageable);
+            return this.getReponseEntity(ResponseCode.SUCCESS, "OK", all, null);
+        } catch (Throwable th) {
+            log.error(th.toString());
+            return this.getReponseEntity(ResponseCode.SELECT_FAIL, "Error", null, th);
         }
     }
 }

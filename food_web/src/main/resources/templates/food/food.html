@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>음식 정보</title>
     {{> ./include/css}}
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 </head>
 <body>
 {{> ./include/topmenu}}
@@ -101,7 +102,7 @@
         </ul>
     </div>
     <div class="bs-docs-section" style="height: 10px;">
-        <div id="modal_box_add" style="display: none; height: 700px;" class="row">
+        <div id="modal_box_add" style="display: none; height: 900px;" class="row">
             <div class="col-lg-12">
                 <div class="bs-component">
                     <div class="modal">
@@ -132,7 +133,17 @@
                                             <input type="range" class="form-range  mt-8" id="sweetLevel" min="0" max="10">
                                         </div>
                                     </div>
-                                    <div id="foodIngredientsDiv" style="height: 150px; overflow-y: auto;">
+                                    <div id="description">토스트 UI 에디터
+                                    </div>
+                                    <div id="foodIngredientsDiv" style="height: 100px; overflow-y: auto;">
+                                    </div>
+                                    <div id="foodFilesDiv" style="height: 50px; overflow-y: auto;">
+                                    </div>
+                                    <a onclick="addFile();" id="addFile" style="cursor: pointer;">파일 ┼</a><br/>
+                                    <div id="uploadFiles">
+                                        <div>
+                                            <input type="file" id="imgFile" class="imageFiles"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -203,6 +214,7 @@
 <script src="/bootswatch/brite/js/prism.js" data-manual></script>
 <script src="/bootswatch/brite/js/custom.js"></script>
 <script src="/js/jquery-3.7.1.min.js"></script>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <script>
     let modalMode = 1;
@@ -211,6 +223,14 @@
 
     let sortIngredientString = "name,asc";
     let curIngredientPage = 1;
+
+    const toastEditor = new toastui.Editor({
+        el: document.querySelector('#description'), // 에디터를 적용할 요소 (컨테이너)
+        height: '200px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
+        initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+        initialValue: '내용을 입력해 주세요.',     // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+        previewStyle: 'vertical'                // 마크다운 프리뷰 스타일 (tab || vertical)
+    });
 
     $(document).ready(function(){
         $.loadFoodCategories();
@@ -487,6 +507,7 @@
     }
 
     $.insert = function() {
+        console.log("description = " + toastEditor.getMarkdown());
         if( $.isValid() === false ) {
             return;
         }
@@ -494,29 +515,37 @@
         if ( confirm(`Are you ok insert [${name}] ?`) === false ) {
             return;
         }
+
+        let formData = new FormData();
         let dataMember = {
             "food": {
-                // "id": 0,
                 "name": $("#name").val(),
                 "saltyLevel": $("#saltyLevel").val(),
                 "sourLevel": $("#sourLevel").val(),
                 "spicyLevel": $("#spicyLevel").val(),
                 "sweetLevel": $("#sweetLevel").val(),
+                // "description": $("#description").val(),
+                "description": toastEditor.getMarkdown(),
                 "foodCategoryId": $("#foodCategoryId").val(),
             },
             "foodIngs": [
             ]
         };
         dataMember.foodIngs = $.makeDatalist();
-
-        console.log(`${JSON.stringify(dataMember)}`);
+        formData.append("foodAndIngs"
+            , new Blob([JSON.stringify(dataMember)]
+                , {type: "application/json"}));
+        $(".imageFiles").each(function(index, fileOne){
+            formData.append("fileList", fileOne.files[0]);
+        });
 
         $.ajax({
-            url: '/api/v1/food/ings',
-            type: "POST",
-            data: JSON.stringify(dataMember),
-            datatype: "JSON",
-            contentType: 'application/json',
+            url: '/api/v1/food/ings'
+            , type: "POST"
+            , datatype: "JSON"
+            , data: formData
+            , contentType: false
+            , processData: false
         }).done(function(data, textStatus, jqXHR) {
             console.log("Success:", data.result);
             $.clearModalForm();
@@ -535,8 +564,11 @@
         $("#sourLevel").val("");
         $("#spicyLevel").val("");
         $("#sweetLevel").val("");
+        // $("#description").val("");
+        toastEditor.setMarkdown("");
         $("#foodCategoryId").val("");
         $("#foodIngredientsDiv").empty();
+        $("#uploadFiles").empty();
     }
 
     $.showModal = (mode) => {
@@ -578,9 +610,12 @@
         $("#sourLevel").val(item.sourLevel);
         $("#spicyLevel").val(item.spicyLevel);
         $("#sweetLevel").val(item.sweetLevel);
+        // $("#description").val(item.description);
+        toastEditor.setMarkdown(item.description);
         $("#foodCategoryId").val(item.foodCategoryId);
         let list = param.foodIngs;
         $.printFoodIngredients(list);
+        $.printFoodFiles(param.fileList);
         $.showModal(2);
     }
 
@@ -598,6 +633,18 @@
         }
     }
 
+    $.printFoodFiles = (list) => {
+        $("#foodFilesDiv").empty();
+        for ( let item of list ) {
+            let html = `<div id="food_file_${item.id}">
+<a href="/download_food_file?id=${item.id}"><span>${item.name}</span></a>
+<img src="${item.dir}/${item.realName}"/>
+<img src="/view_food_file/${item.id}"/>
+</div>`;
+            $("#foodFilesDiv").append(html);
+        }
+    }
+
     $.getNumberFromUnit = (unit) => {
         switch(unit) {
             case 'ml':
@@ -610,6 +657,7 @@
     }
 
     $.update = function() {
+        console.log("description = " + toastEditor.getMarkdown());
         if( $.isValid() === false ) {
             return;
         }
@@ -625,6 +673,8 @@
                 "sourLevel": $("#sourLevel").val(),
                 "spicyLevel": $("#spicyLevel").val(),
                 "sweetLevel": $("#sweetLevel").val(),
+                // "description": $("#description").val(),
+                "description": toastEditor.getMarkdown(),
                 "foodCategoryId": $("#foodCategoryId").val(),
             },
             "foodIngs": [
@@ -847,6 +897,20 @@
     $.goIngredientPage = function(goPage) {
         curIngredientPage = goPage;
         $.loadIngredients();
+    }
+
+    function addFile() {
+        let html = `<div>
+						<input type="file" id="imgFile" class="imageFiles"/>
+                        <a onclick="removeThis($(this));" style="cursor: pointer;">-</a>
+					</div>`;
+        if ( $("#uploadFiles").children().length < 10 ) {
+            $("#uploadFiles").append(html);
+        }
+    }
+
+    function removeThis(object) {
+        object.parent().remove();
     }
 </script>
 </body>

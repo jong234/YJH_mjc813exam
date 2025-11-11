@@ -58,8 +58,11 @@ public class WebSecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((x) ->
                         x.requestMatchers("/").permitAll()
+                                        .requestMatchers("/swagger-ui/**").permitAll()
+                                        .requestMatchers("/v3/api-docs/**").permitAll()
                                         .requestMatchers("/signpage/**").permitAll()
                                         .requestMatchers("/main/**").permitAll()
+                                        .requestMatchers("/api/v1/main").permitAll()
                                         .requestMatchers("/cookiesign/**").permitAll()
                                         .requestMatchers("/sessionsign/**").permitAll()
                                         .requestMatchers("/springsign/**").permitAll()

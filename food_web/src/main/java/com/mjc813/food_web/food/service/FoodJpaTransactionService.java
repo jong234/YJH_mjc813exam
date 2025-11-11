@@ -1,19 +1,26 @@
 package com.mjc813.food_web.food.service;
 
+import com.mjc813.food_web.common.MyFileUtil;
 import com.mjc813.food_web.common.exception.MyDataNotFoundException;
 import com.mjc813.food_web.food.dto.FoodDto;
 import com.mjc813.food_web.food.dto.FoodEntity;
 import com.mjc813.food_web.food.dto.FoodIngsResponseDto;
-import com.mjc813.food_web.food.dto.IFood;
-import com.mjc813.food_web.food_file.service.FoodFileRepository;
+import com.mjc813.food_web.food_file.dto.FoodFileDto;
+import com.mjc813.food_web.food_file.dto.FoodFileEntity;
+import com.mjc813.food_web.food_file.service.FoodFileService;
 import com.mjc813.food_web.food_ingredient.dto.FoodIngredientDto;
 import com.mjc813.food_web.food_ingredient.dto.FoodIngredientEntity;
 import com.mjc813.food_web.food_ingredient.service.FoodIngredientRepository;
 import jakarta.transaction.Transactional;
-import org.hibernate.collection.spi.PersistentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +34,12 @@ public class FoodJpaTransactionService {
     private FoodIngredientRepository foodIngredientRepository;
 
     @Autowired
-    private FoodFileRepository foodFileRepository;
+    private FoodFileService foodFileService;
+
+    private MyFileUtil mfu = new MyFileUtil();
 
     @Transactional
-    public void insert(FoodDto foodDto, List<FoodIngredientDto> ingredientDtoList) {
+    public void insert(FoodDto foodDto, List<FoodIngredientDto> ingredientDtoList, List<MultipartFile> fileList) throws IOException {
         FoodEntity foodEntity = new FoodEntity();
         foodEntity.copyMembersFood(foodDto);
         this.foodRepository.save(foodEntity);
@@ -43,6 +52,25 @@ public class FoodJpaTransactionService {
             ingredientEntityList.add(foodIngredientEntity);
         }
         this.foodIngredientRepository.saveAll(ingredientEntityList);
+
+        if ( fileList == null ) {
+            return;
+        }
+        for ( MultipartFile mf : fileList ) {
+            FoodFileDto ffd = FoodFileDto.builder()
+                    .dir(MyFileUtil.uploadDir)
+                    .ext(mfu.getFileExt(mf.getOriginalFilename()))
+                    .size(mf.getSize())
+                    .name(mf.getOriginalFilename())
+                    .realName(mfu.generateRandomString(20))
+                    .foodId(foodEntity.getId())
+                    .build();
+            Path copyLocation = Paths.get(ffd.getDir() + "/" + ffd.getRealName());
+            if ( mfu.checkDirectory(ffd.getDir()) ) {
+                Files.copy(mf.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+                this.foodFileService.insert(ffd);
+            }
+        }
     }
 
     @Transactional
@@ -69,7 +97,7 @@ public class FoodJpaTransactionService {
         this.foodRepository.deleteById(foodId);
     }
 
-    public FoodIngsResponseDto getFoodAndIngredientList(Long id) throws Exception {
+    public FoodIngsResponseDto getFoodAndIngredientListAndFileList(Long id) throws Exception {
         Optional<FoodEntity> find = this.foodRepository.findById(id);
         if ( find.isEmpty() ) {
             throw new MyDataNotFoundException("id can't found !");
@@ -85,9 +113,18 @@ public class FoodJpaTransactionService {
             list.add(dto);
         }
 
+        List<FoodFileDto> fileList = new ArrayList<>();
+        List<FoodFileEntity> fileEntities = this.foodFileService.findByFoodId(findDto.getId());
+        for( FoodFileEntity entity : fileEntities ) {
+            FoodFileDto dto = new FoodFileDto();
+            dto.copyMembersFoodFile(entity);
+            fileList.add(dto);
+        }
+
         FoodIngsResponseDto result = FoodIngsResponseDto.builder()
                 .food(findDto)
                 .foodIngs(list)
+                .fileList(fileList)
                 .build();
         return result;
     }
@@ -96,7 +133,7 @@ public class FoodJpaTransactionService {
         List<FoodEntity> list = this.foodRepository.findAll();
         List<FoodIngsResponseDto> result = new ArrayList<>();
         for ( FoodEntity entity : list ) {
-            FoodIngsResponseDto item = this.getFoodAndIngredientList(entity.getId());
+            FoodIngsResponseDto item = this.getFoodAndIngredientListAndFileList(entity.getId());
             result.add(item);
         }
         return result;
